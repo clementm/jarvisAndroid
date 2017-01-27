@@ -8,30 +8,6 @@
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
 
-
-    <FrameLayout
-        android:paddingTop="?attr/actionBarSize"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/activity_main"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingLeft="0dp"
-            android:paddingRight="0dp"
-            android:paddingTop="0dp"
-            tools:context="com.example.clement.androidapp.MainActivity"
-            android:paddingBottom="0dp">
-
-            <ListView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/listView" />
-        </LinearLayout>
-    </FrameLayout>
-
     <include
         layout="@layout/app_bar_drawer"
         android:layout_width="match_parent"

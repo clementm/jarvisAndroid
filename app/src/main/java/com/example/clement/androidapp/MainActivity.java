@@ -3,13 +3,22 @@ package com.example.clement.androidapp;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.PendingIntent;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.icu.util.Calendar;
 import android.net.Uri;
+import android.nfc.FormatException;
+import android.nfc.NdefMessage;
+import android.nfc.NfcAdapter;
+import android.nfc.Tag;
+import android.nfc.tech.MifareUltralight;
+import android.nfc.tech.Ndef;
+import android.nfc.tech.NfcF;
 import android.provider.CalendarContract;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -37,7 +46,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Array;
+import java.nio.charset.Charset;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -46,13 +58,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
-public class MainActivity extends AppCompatActivity {
-
-    public final static String INTENT_SCHEDULE = "com.example.jarvis.SCHEDULE";
+public class MainActivity extends DrawerActivity {
 
     private CalendarInterface calInterface;
-    private RaspiInterface raspiInterface;
     public static final int READ_CALENDAR_PERMISSION = 0;
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
@@ -67,6 +77,15 @@ public class MainActivity extends AppCompatActivity {
                 }
                 return;
             }
+            /*case READ_NFC_PERMISSION: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    mAdapter.enableForegroundDispatch(this, pendingIntent, null, null);
+                } else {
+                    Log.d("Permission", "Denied !");
+                }
+                return;
+            }*/
         }
     }
 
@@ -99,32 +118,20 @@ public class MainActivity extends AppCompatActivity {
 
             EventAdapter adapter = new EventAdapter(MainActivity.this, eventList);
             mListView.setAdapter(adapter);
-
-            raspiInterface.pushEventList(eventList, new RaspiInterface.RaspiCallback() {
-                @Override
-                public void onObjectResponse(JSONObject response) {
-                    Log.d("STATUS", response.toString());
-
-                    Intent intent = new Intent(context, ScheduleActivity.class);
-                    intent.putExtra(INTENT_SCHEDULE, response.toString());
-                    startActivity(intent);
-                }
-            });
         }
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        super.onCreate(savedInstanceState, R.layout.activity_main);
 
         getSupportActionBar().setTitle("Evènements récents et à venir");
-
-        raspiInterface = new RaspiInterface(this, "http://192.168.0.28:3000/");
 
         calInterface = new CalendarInterface(this, READ_CALENDAR_PERMISSION);
         if (calInterface.checkGrantedPermission()) {
             startEventsPush();
         }
     }
+
+
 }

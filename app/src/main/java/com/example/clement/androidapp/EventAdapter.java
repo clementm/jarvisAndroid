@@ -43,7 +43,6 @@ public class EventAdapter extends ArrayAdapter<Event> {
         //il ne reste plus qu'à remplir notre vue
         viewHolder.pseudo.setText(event.getPseudo());
         viewHolder.text.setText(event.getText());
-        viewHolder.avatar.setImageDrawable(new ColorDrawable(event.getColor()));
 
         return convertView;
     }

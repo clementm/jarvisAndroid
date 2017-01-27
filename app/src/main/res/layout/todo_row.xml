@@ -8,14 +8,13 @@
 
     <ImageView
         android:id="@+id/avatar"
+        app:srcCompat="@drawable/ic_flag"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        app:srcCompat="@drawable/ic_today"
-        tools:background="#AAA"
         />
 
     <TextView
-        android:id="@+id/pseudo"
+        android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@android:color/black"
@@ -27,12 +26,12 @@
         />
 
     <TextView
-        android:id="@+id/text"
+        android:id="@+id/priority"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@android:color/black"
-        android:layout_alignLeft="@+id/pseudo"
-        android:layout_below="@+id/pseudo"
+        android:layout_alignLeft="@+id/content"
+        android:layout_below="@+id/content"
         tools:text="Texte de mon tweet"
         />
 
